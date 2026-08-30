@@ -323,4 +323,40 @@ export function simulatePopulation(params, n = 300) {
   }));
 }
 
-export { RETINO_STAGES };
+// --- Categorização de desfecho final por paciente, para o pictograma
+// (isotype chart / "de cada 100 pacientes"). Cada paciente cai em UMA
+// categoria, a mais grave que ele atingiu no horizonte simulado.
+const OUTCOME_CATEGORIES = [
+  { key: 'obito', label: 'Óbito', color: '#0A0A0A', icon: '✝' },
+  { key: 'amputacao', label: 'Amputação', color: '#8C1F2F', icon: '✂' },
+  { key: 'ulcera', label: 'Teve úlcera (sem amputar)', color: '#FF6B54', icon: '●' },
+  { key: 'pe_risco', label: 'Pé de risco (sem úlcera)', color: '#F5B942', icon: '●' },
+  { key: 'neuropatia_pad', label: 'Neuropatia/DAP (sem pé de risco)', color: '#5AB8FF', icon: '●' },
+  { key: 'sem_complicacoes', label: 'Sem complicações no pé', color: '#3A4A4E', icon: '●' },
+];
+
+function categorizePatient(finalState) {
+  if (finalState.obito) return 'obito';
+  if (finalState.amputMaior || finalState.amputMenor) return 'amputacao';
+  if (finalState.numEpisodios > 0) return 'ulcera';
+  if (finalState.peRisco) return 'pe_risco';
+  if (finalState.neuropatia || finalState.pad) return 'neuropatia_pad';
+  return 'sem_complicacoes';
+}
+
+export function simulatePopulationOutcomes(params, n = 300) {
+  const counts = { obito: 0, amputacao: 0, ulcera: 0, pe_risco: 0, neuropatia_pad: 0, sem_complicacoes: 0 };
+  for (let i = 0; i < n; i++) {
+    const { finalState } = simulatePatient(params, (Date.now() + i * 104729) & 0xffffffff);
+    counts[categorizePatient(finalState)] += 1;
+  }
+  const total = n;
+  const result = OUTCOME_CATEGORIES.map((c) => ({
+    ...c,
+    count: counts[c.key],
+    pct: (100 * counts[c.key]) / total,
+  }));
+  return result;
+}
+
+export { RETINO_STAGES, OUTCOME_CATEGORIES };

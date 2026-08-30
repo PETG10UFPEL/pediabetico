@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import './App.css';
-import { simulatePatient, simulatePopulation } from './lib/simulation';
+import { simulatePatient, simulatePopulation, simulatePopulationOutcomes } from './lib/simulation';
 
 const DEFAULT_PARAMS = {
   idadeDiagnostico: 55,
@@ -13,6 +13,7 @@ const DEFAULT_PARAMS = {
   adesaoCuidadoPe: 60,
   qualidadeCurativo: 70,
   horizonYears: 20,
+  nPacientes: 300,
 };
 
 const KIND_ICON = {
@@ -82,6 +83,9 @@ function ParamPanel({ params, setParams }) {
         <h2><span className="n">03</span> Horizonte da simulação</h2>
         <Slider label="Anos simulados desde o diagnóstico" value={params.horizonYears} min={5} max={30}
           suffix=" anos" onChange={set('horizonYears')} />
+        <Slider label="Pacientes simulados (curva populacional)" value={params.nPacientes} min={50} max={1000} step={50}
+          onChange={set('nPacientes')}
+          hint="Mais pacientes = curvas mais estáveis, mas demora um pouco mais para calcular." />
       </section>
     </>
   );
@@ -148,8 +152,57 @@ function TrajectoryView({ params }) {
   );
 }
 
+function Pictogram({ params }) {
+  const [runId, setRunId] = useState(0);
+  const outcomes = useMemo(() => simulatePopulationOutcomes(params, params.nPacientes), [params, runId]);
+
+  // Monta uma grade fixa de 100 quadradinhos, preenchida proporcionalmente
+  // (ajusta o arredondamento na maior categoria para somar exatamente 100).
+  const raw = outcomes.map((o) => Math.round(o.pct));
+  const diff = 100 - raw.reduce((a, b) => a + b, 0);
+  if (diff !== 0) {
+    const biggestIdx = raw.indexOf(Math.max(...raw));
+    raw[biggestIdx] += diff;
+  }
+  const cells = [];
+  outcomes.forEach((o, i) => { for (let k = 0; k < raw[i]; k++) cells.push(o); });
+
+  return (
+    <section className="card">
+      <h2><span className="n">→</span> De cada 100 pacientes com esse perfil…</h2>
+      <p className="pico-caption">
+        Simulação com <b>{params.nPacientes}</b> pacientes ao longo de <b>{params.horizonYears} anos</b>,
+        mapeada para uma grade de 100 (arredondado).
+      </p>
+
+      <div className="pictogram-wrap">
+        <div className="pictogram-grid">
+          {cells.map((c, i) => (
+            <div key={i} className="pico" style={{ background: c.color, animationDelay: `${Math.min(i * 12, 900)}ms` }}
+              title={c.label} />
+          ))}
+        </div>
+
+        <div className="pico-legend">
+          {outcomes.filter((o) => o.count > 0 || o.pct > 0).map((o) => (
+            <div className="pico-legend-item" key={o.key}>
+              <span className="pico-legend-swatch" style={{ background: o.color }} />
+              <span className="pico-legend-label">{o.label}</span>
+              <span className="pico-legend-pct">{o.pct.toFixed(1)}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <button className="runbtn secondary" onClick={() => setRunId((r) => r + 1)}>
+        🔄 Rodar simulação de novo
+      </button>
+    </section>
+  );
+}
+
 function PopulationChart({ params }) {
-  const data = useMemo(() => simulatePopulation(params, 250), [params]);
+  const data = useMemo(() => simulatePopulation(params, params.nPacientes), [params]);
   const W = 680, H = 300, padL = 40, padR = 14, padT = 16, padB = 30;
   const maxYear = params.horizonYears;
   const x = (year) => padL + (year / maxYear) * (W - padL - padR);
@@ -178,7 +231,7 @@ function PopulationChart({ params }) {
 
   return (
     <section className="card">
-      <h2><span className="n">→</span> Curva populacional (Monte Carlo, 250 pacientes simulados)</h2>
+      <h2><span className="n">→</span> Curva populacional ao longo do tempo (Monte Carlo, {params.nPacientes} pacientes)</h2>
       <p className="hint" style={{ marginBottom: 14 }}>
         Cada linha mostra a % de pacientes que já atingiu aquele estágio até cada ano, dado o mesmo perfil de risco definido no painel.
         Útil para ver o efeito agregado de mudar um parâmetro (ex.: ligar o calçado terapêutico) sobre toda uma coorte.
@@ -224,7 +277,12 @@ export default function App() {
             <div className={`tab ${tab === 'trajetoria' ? 'active' : ''}`} onClick={() => setTab('trajetoria')}>Trajetória individual</div>
             <div className={`tab ${tab === 'populacao' ? 'active' : ''}`} onClick={() => setTab('populacao')}>Curva populacional</div>
           </div>
-          {tab === 'trajetoria' ? <TrajectoryView params={params} /> : <PopulationChart params={params} />}
+          {tab === 'trajetoria' ? <TrajectoryView params={params} /> : (
+            <>
+              <Pictogram params={params} />
+              <PopulationChart params={params} />
+            </>
+          )}
         </div>
       </div>
 
