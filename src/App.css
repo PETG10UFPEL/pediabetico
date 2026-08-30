@@ -159,3 +159,7 @@ footer.foot p{ font-size:10.5px; color:var(--ink-dim); line-height:1.65; margin:
 .pico-caption b{ color:var(--ink); font-family:var(--font-mono); }
 
 .n-control{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+
+/* Brand */
+.brand-row{ display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.brand-logo{ height:34px; width:auto; border-radius:6px; background:#fff; padding:3px 6px; }

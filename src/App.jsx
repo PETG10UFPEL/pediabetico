@@ -257,7 +257,10 @@ export default function App() {
   return (
     <div className="wrap">
       <header className="top">
-        <div className="eyebrow"><span className="dot" />SIMULAÇÃO EDUCACIONAL — NÃO É FERRAMENTA CLÍNICA</div>
+        <div className="brand-row">
+          <img src="/logo-amor-a-pele.png" alt="Amor-à-Pele FE-UFPEL & PET-Saúde G10" className="brand-logo" />
+          <div className="eyebrow"><span className="dot" />SIMULAÇÃO EDUCACIONAL — NÃO É FERRAMENTA CLÍNICA</div>
+        </div>
         <h1>👁️🦶 Evolução do paciente diabético: do diagnóstico ao pé de risco</h1>
         <p className="sub">
           Modelo ano-a-ano, baseado em ordens de grandeza da literatura (Armstrong et al. 2017/2020, Sheehan et al. 2003,
@@ -287,6 +290,10 @@ export default function App() {
       </div>
 
       <footer className="foot">
+        <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <img src="/logo-amor-a-pele.png" alt="" style={{ height: 20, borderRadius: 4, background: '#fff', padding: '2px 4px' }} />
+          Projeto Amor-à-Pele (FE-UFPEL) · PET-Saúde G10 — Telemonitoramento de feridas crônicas
+        </p>
         <p><b>Sobre o modelo:</b> os multiplicadores de risco usados aqui (HbA1c, tabagismo, adesão ao autocuidado,
         calçado terapêutico, PAD, qualidade do manejo de ferida) foram calibrados para reproduzir, em ordem de
         grandeza, achados publicados — não são coeficientes validados estatisticamente e não devem orientar decisões
