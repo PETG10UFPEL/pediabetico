@@ -58,7 +58,7 @@ input[type=range]::-moz-range-thumb{
   width:38px; height:22px; border-radius:12px; background:var(--panel-2); border:1px solid var(--line);
   position:relative; cursor:pointer; flex-shrink:0;
 }
-.switch.on{ background:#173330; border-color:var(--teal); }
+.switch.on{ background:#D6EEE9; border-color:var(--teal); }
 .switch .knob{
   position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%;
   background:var(--ink-dim); transition:.15s;
@@ -107,16 +107,16 @@ input[type=range]::-moz-range-thumb{
   font-family:var(--font-mono); font-size:11.5px; padding:6px 11px; border-radius:20px;
   border:1px solid var(--line); color:var(--ink-dim);
 }
-.pill.warn{ background:#3A2A12; color:var(--amber); border-color:#5A431E; }
-.pill.bad{ background:#3A1712; color:var(--coral); border-color:#5A2B1E; }
-.pill.ok{ background:#123A32; color:var(--teal); border-color:#1E5449; }
+.pill.warn{ background:#FBEACB; color:#8A5A0C; border-color:#EAD199; }
+.pill.bad{ background:#FBDFD8; color:#B23B24; border-color:#F0BDAF; }
+.pill.ok{ background:#DAF0EB; color:#136B62; border-color:#B9E0D6; }
 
 .stagebar{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
 .stage-chip{
   font-family:var(--font-mono); font-size:10.5px; padding:6px 10px; border-radius:8px;
   background:var(--panel-2); border:1px solid var(--line); color:var(--ink-dim);
 }
-.stage-chip.reached{ color:var(--ink); border-color:var(--teal); background:#12262A; }
+.stage-chip.reached{ color:var(--ink); border-color:var(--teal); background:#DAF0EB; font-weight:600; }
 
 .microbadge{
   display:flex; gap:10px; align-items:flex-start; background:var(--panel-2);
@@ -161,5 +161,12 @@ footer.foot p{ font-size:10.5px; color:var(--ink-dim); line-height:1.65; margin:
 .n-control{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
 
 /* Brand */
+.hero-banner{
+  width:100%; border-radius:18px; overflow:hidden; margin-bottom:18px;
+  border:1px solid var(--line); box-shadow:0 4px 24px rgba(58,42,30,0.08);
+}
+.hero-img{ width:100%; height:auto; max-height:260px; object-fit:cover; object-position:center 40%; display:block; }
+@media (max-width:600px){ .hero-img{ max-height:170px; } }
+
 .brand-row{ display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
-.brand-logo{ height:34px; width:auto; border-radius:6px; background:#fff; padding:3px 6px; }
+.brand-logo{ height:34px; width:auto; border-radius:6px; background:#fff; padding:3px 6px; border:1px solid var(--line); }

@@ -222,7 +222,7 @@ function PopulationChart({ params }) {
   let grid = '';
   for (let i = 0; i <= 4; i++) {
     const gy = padT + i * (H - padT - padB) / 4;
-    grid += `<line x1="${padL}" y1="${gy}" x2="${W - padR}" y2="${gy}" stroke="#2A3A3E" stroke-width="1"/>`;
+    grid += `<line x1="${padL}" y1="${gy}" x2="${W - padR}" y2="${gy}" stroke="#E7D7BF" stroke-width="1"/>`;
     grid += `<text x="${padL - 6}" y="${gy + 3}" text-anchor="end" class="axis-label">${(100 - i * 25)}%</text>`;
   }
   for (let yy = 0; yy <= maxYear; yy += Math.max(1, Math.round(maxYear / 5))) {
@@ -257,6 +257,9 @@ export default function App() {
   return (
     <div className="wrap">
       <header className="top">
+        <div className="hero-banner">
+          <img src="/hero-banner.jpg" alt="Ilustração: cuidado individual no curativo do pé diabético, conectado visualmente a uma população" className="hero-img" />
+        </div>
         <div className="brand-row">
           <img src="/logo-amor-a-pele.png" alt="Amor-à-Pele FE-UFPEL & PET-Saúde G10" className="brand-logo" />
           <div className="eyebrow"><span className="dot" />SIMULAÇÃO EDUCACIONAL — NÃO É FERRAMENTA CLÍNICA</div>

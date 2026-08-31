@@ -1,16 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root{
-  --bg:#0E1416;
-  --panel:#161F22;
-  --panel-2:#1C282B;
-  --line:#2A3A3E;
-  --ink:#EAF2F1;
-  --ink-dim:#9DB0AE;
-  --coral:#FF6B54;
-  --teal:#4FD1C0;
-  --amber:#F5B942;
-  --violet:#B18CFF;
+  /* Tema claro, paleta derivada da ilustração institucional
+     (terracota / verde-azulado / mostarda sobre creme) */
+  --bg:#FBF3E7;
+  --panel:#FFFFFF;
+  --panel-2:#F6EADA;
+  --line:#E7D7BF;
+  --ink:#3A2A1E;
+  --ink-dim:#8A7663;
+  --coral:#E85C42;
+  --teal:#1F8C82;
+  --amber:#C87F17;
+  --violet:#7A5FBF;
   --font-display:'IBM Plex Sans',system-ui,sans-serif;
   --font-mono:'IBM Plex Mono',ui-monospace,monospace;
 }
@@ -29,4 +31,4 @@ body{
 
 a{ color:var(--teal); }
 button{ font-family:inherit; }
-::selection{ background:var(--coral); color:#0E1416; }
+::selection{ background:var(--coral); color:#FBF3E7; }
